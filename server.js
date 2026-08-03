@@ -2,10 +2,13 @@ require("dotenv").config();
 const express = require("express");
 const pool = require("./src/config/db");
 const authRoutes = require("./src/routes/authRoutes");
+const noteRoutes = require("./src/routes/noteRoutes");
 
 const app = express();
 app.use(express.json());
 app.use("/api/auth", authRoutes);
+app.use("/api/notes", noteRoutes);
+
 
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
