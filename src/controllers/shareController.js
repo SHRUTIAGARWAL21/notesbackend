@@ -1,6 +1,6 @@
 const noteModel = require("../models/noteModel");
 const shareModel = require("../models/shareModel");
-const { isOwner } = require("../policies/notePolicy");
+const { canManage } = require("../policies/notePolicy");
 
 async function shareNote(req, res) {
   try {
@@ -8,7 +8,7 @@ async function shareNote(req, res) {
     if (!note) {
       return res.status(404).json({ error: "Note not found" });
     }
-    if (!isOwner(req.user, note)) {
+    if (!canManage(req.user, note)) {
       return res
         .status(403)
         .json({ error: "Not authorized to share this note" });
@@ -27,7 +27,7 @@ async function revokeShare(req, res) {
     if (!note) {
       return res.status(404).json({ error: "Note not found" });
     }
-    if (!isOwner(req.user, note)) {
+    if (!canManage(req.user, note)) {
       return res
         .status(403)
         .json({ error: "Not authorized to revoke access to this note" });

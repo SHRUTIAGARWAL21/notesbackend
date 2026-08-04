@@ -1,7 +1,7 @@
 const noteModel = require("../models/noteModel");
 const shareModel = require("../models/shareModel");
 const commentModel = require("../models/commentModel");
-const { isOwner, canView } = require("../policies/notePolicy");
+const { isOwner, canView, canManage } = require("../policies/notePolicy");
 const { isCommentAuthor } = require("../policies/commentPolicy");
 
 async function createComment(req, res) {
@@ -58,7 +58,7 @@ async function deleteComment(req, res) {
       return res.status(404).json({ error: "Comment not found" });
     }
     const note = await noteModel.getNoteById(comment.note_id);
-    if (!isCommentAuthor(req.user, comment) && !isOwner(req.user, note)) {
+    if (!isCommentAuthor(req.user, comment) && !canManage(req.user, note)) {
       return res
         .status(403)
         .json({ error: "Not authorized to delete this comment" });
