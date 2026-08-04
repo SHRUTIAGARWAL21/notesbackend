@@ -11,6 +11,12 @@ const {
   updateNoteVisibility,
 } = require("../controllers/noteController");
 
+const {
+  createComment,
+  listComments,
+  deleteComment,
+} = require("../controllers/commentController");
+
 const router = express.Router();
 
 router.post("/", authMiddleware, createNote);
@@ -22,5 +28,9 @@ router.patch("/:id/visibility", authMiddleware, updateNoteVisibility);
 
 router.post("/:id/shares", authMiddleware, shareNote);
 router.delete("/:id/shares/:userId", authMiddleware, revokeShare);
+
+router.post("/:id/comments", authMiddleware, createComment);
+router.get("/:id/comments", authMiddleware, listComments);
+router.delete("/:id/comments/:commentId", authMiddleware, deleteComment);
 
 module.exports = router;
