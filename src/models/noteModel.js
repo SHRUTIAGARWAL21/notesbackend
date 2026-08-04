@@ -41,6 +41,25 @@ async function deleteNote(id) {
   await pool.query(`UPDATE notes SET is_deleted = true WHERE id = $1`, [id]);
 }
 
+async function getVisibleNotes(userId) {
+  const result = await pool.query(
+    `SELECT DISTINCT notes.* FROM notes
+     LEFT JOIN shares ON shares.note_id = notes.id AND shares.user_id = $1
+     WHERE notes.is_deleted = false
+       AND (notes.owner_id = $1 OR notes.visibility = 'public' OR shares.user_id = $1)
+     ORDER BY notes.created_at DESC`,
+    [userId],
+  );
+  return result.rows;
+}
+
+async function getAllNotes() {
+  const result = await pool.query(
+    `SELECT * FROM notes WHERE is_deleted = false ORDER BY created_at DESC`,
+  );
+  return result.rows;
+}
+
 async function updateVisibility(id, visibility) {
   const result = await pool.query(
     `UPDATE notes
@@ -56,6 +75,8 @@ module.exports = {
   createNote,
   getNoteById,
   getNotesByOwner,
+  getVisibleNotes,
+  getAllNotes,
   updateNote,
   deleteNote,
   updateVisibility,

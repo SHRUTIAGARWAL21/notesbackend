@@ -122,6 +122,12 @@ button.danger:hover {
   background: #0a0a0a;
 }
 
+.notes-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .notes-grid {
   list-style: none;
   padding: 0;

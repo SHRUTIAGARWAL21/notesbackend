@@ -37,6 +37,8 @@ export const login = (email, password) =>
 
 export const getMyNotes = (token) => apiFetch("/notes", { token });
 
+export const getVisibleNotes = (token) => apiFetch("/notes/visible", { token });
+
 export const getNote = (token, id) => apiFetch(`/notes/${id}`, { token });
 
 export const createNote = (token, title, content) =>

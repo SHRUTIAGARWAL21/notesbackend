@@ -5,6 +5,7 @@ const { shareNote, revokeShare } = require("../controllers/shareController");
 const {
   createNote,
   getMyNotes,
+  getVisibleNotes,
   getNote,
   updateNote,
   deleteNote,
@@ -21,6 +22,7 @@ const router = express.Router();
 
 router.post("/", authMiddleware, createNote);
 router.get("/", authMiddleware, getMyNotes);
+router.get("/visible", authMiddleware, getVisibleNotes);
 router.get("/:id", authMiddleware, getNote);
 router.put("/:id", authMiddleware, updateNote);
 router.delete("/:id", authMiddleware, deleteNote);

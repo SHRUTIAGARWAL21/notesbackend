@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
-import { getMyNotes, createNote } from "../api";
+import { getMyNotes, getVisibleNotes, createNote } from "../api";
 
 function NotesList({ token, onOpenNote }) {
   const [notes, setNotes] = useState([]);
+  const [scope, setScope] = useState("all");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [error, setError] = useState("");
 
-  async function loadNotes() {
+  async function loadNotes(nextScope = scope) {
     try {
-      const data = await getMyNotes(token);
+      const data = nextScope === "mine" ? await getMyNotes(token) : await getVisibleNotes(token);
       setNotes(data);
     } catch (err) {
       setError(err.message);
@@ -18,7 +19,11 @@ function NotesList({ token, onOpenNote }) {
 
   useEffect(() => {
     loadNotes();
-  }, []);
+  }, [scope]);
+
+  function handleScopeToggle() {
+    setScope(scope === "all" ? "mine" : "all");
+  }
 
   async function handleCreate(e) {
     e.preventDefault();
@@ -53,7 +58,12 @@ function NotesList({ token, onOpenNote }) {
         {error && <p className="error">{error}</p>}
       </form>
 
-      <h2>My Notes</h2>
+      <div className="notes-list-header">
+        <h2>{scope === "mine" ? "My Notes" : "All Notes"}</h2>
+        <button type="button" onClick={handleScopeToggle}>
+          {scope === "mine" ? "View All Notes" : "View My Notes"}
+        </button>
+      </div>
       {notes.length === 0 && <p>No notes yet.</p>}
       <ul className="notes-grid">
         {notes.map((note) => (

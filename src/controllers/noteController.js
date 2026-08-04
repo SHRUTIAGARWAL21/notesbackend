@@ -2,6 +2,7 @@ const noteModel = require("../models/noteModel");
 const shareModel = require("../models/shareModel");
 const {
   isOwner,
+  isAdmin,
   canView,
   canEdit,
   canManage,
@@ -24,6 +25,17 @@ async function createNote(req, res) {
 async function getMyNotes(req, res) {
   try {
     const notes = await noteModel.getNotesByOwner(req.user.id);
+    res.json(notes);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+async function getVisibleNotes(req, res) {
+  try {
+    const notes = isAdmin(req.user)
+      ? await noteModel.getAllNotes()
+      : await noteModel.getVisibleNotes(req.user.id);
     res.json(notes);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -120,6 +132,7 @@ async function updateNoteVisibility(req, res) {
 module.exports = {
   createNote,
   getMyNotes,
+  getVisibleNotes,
   getNote,
   updateNote,
   deleteNote,
