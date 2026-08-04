@@ -1,0 +1,168 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+  background: #000;
+  color: #e5e5e5;
+}
+
+#root {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+h1,
+h2,
+h3 {
+  color: #fff;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #111;
+  border: 1px solid #333;
+  color: #eee;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+button {
+  background: #1a1a1a;
+  color: #eee;
+  border: 1px solid #444;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+button:hover {
+  background: #2a2a2a;
+  border-color: #666;
+}
+
+button.danger {
+  border-color: #663333;
+  color: #ff8080;
+}
+
+button.danger:hover {
+  background: #331a1a;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  color: #999;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 12px;
+}
+
+.error {
+  color: #ff8080;
+  margin-top: 8px;
+}
+
+.auth-container {
+  max-width: 360px;
+  margin: 80px auto;
+  text-align: center;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #222;
+  padding: 24px;
+  border-radius: 6px;
+  background: #0a0a0a;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #222;
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #888;
+  font-size: 14px;
+}
+
+.create-note-form,
+.note-form,
+.share-section,
+.comments-section {
+  border: 1px solid #222;
+  padding: 16px;
+  border-radius: 6px;
+  margin-bottom: 24px;
+  background: #0a0a0a;
+}
+
+.notes-grid {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.note-card {
+  border: 1px solid #222;
+  padding: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #0a0a0a;
+}
+
+.note-card:hover {
+  border-color: #555;
+}
+
+.note-visibility {
+  color: #777;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.note-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.comments-list {
+  list-style: none;
+  padding: 0;
+}
+
+.comments-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #1a1a1a;
+}
