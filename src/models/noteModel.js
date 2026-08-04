@@ -11,13 +11,16 @@ async function createNote({ title, content, ownerId }) {
 }
 
 async function getNoteById(id) {
-  const result = await pool.query(`SELECT * FROM notes WHERE id = $1`, [id]);
+  const result = await pool.query(
+    `SELECT * FROM notes WHERE id = $1 AND is_deleted = false`,
+    [id],
+  );
   return result.rows[0];
 }
 
 async function getNotesByOwner(ownerId) {
   const result = await pool.query(
-    `SELECT * FROM notes WHERE owner_id = $1 ORDER BY created_at DESC`,
+    `SELECT * FROM notes WHERE owner_id = $1 AND is_deleted = false ORDER BY created_at DESC`,
     [ownerId],
   );
   return result.rows;
@@ -35,7 +38,7 @@ async function updateNote(id, { title, content }) {
 }
 
 async function deleteNote(id) {
-  await pool.query(`DELETE FROM notes WHERE id = $1`, [id]);
+  await pool.query(`UPDATE notes SET is_deleted = true WHERE id = $1`, [id]);
 }
 
 async function updateVisibility(id, visibility) {
