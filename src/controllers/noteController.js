@@ -1,5 +1,6 @@
 const noteModel = require("../models/noteModel");
-const { isOwner, canView } = require("../policies/notePolicy");
+const shareModel = require("../models/shareModel");
+const { isOwner, canView, canEdit } = require("../policies/notePolicy");
 
 async function createNote(req, res) {
   try {
@@ -30,7 +31,10 @@ async function getNote(req, res) {
     if (!note) {
       return res.status(404).json({ error: "Note not found" });
     }
-    if (!canView(req.user, note)) {
+    const share = isOwner(req.user, note)
+      ? null
+      : await shareModel.getShare(note.id, req.user.id);
+    if (!canView(req.user, note, share)) {
       return res
         .status(403)
         .json({ error: "Not authorized to view this note" });
@@ -47,7 +51,10 @@ async function updateNote(req, res) {
     if (!note) {
       return res.status(404).json({ error: "Note not found" });
     }
-    if (!isOwner(req.user, note)) {
+    const share = isOwner(req.user, note)
+      ? null
+      : await shareModel.getShare(note.id, req.user.id);
+    if (!canEdit(req.user, note, share)) {
       return res
         .status(403)
         .json({ error: "Not authorized to edit this note" });
